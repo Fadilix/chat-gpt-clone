@@ -38,7 +38,6 @@ const ChatPage = () => {
     e.preventDefault();
     if (!chatInput.trim()) return;
     setIsVisibleWelcomeMessages(false);
-
     setIsLoading(true);
     setError("");
 
@@ -88,7 +87,12 @@ const ChatPage = () => {
       <div className="p-4 mx-[400px] mb-10">
         <div className="mb-4 overflow-y-auto p-2 rounded">
           {messages.map((message, index) => (
-            <div key={index} className={`p-2 my-2 rounded`}>
+            <div
+              key={index}
+              className={`p-2 my-2 rounded ${
+                message.sender === "user" ? "text-right" : "text-left"
+              }`}
+            >
               <ReactMarkdown remarkPlugins={[remarkGfm]}>
                 {message.text}
               </ReactMarkdown>
@@ -111,6 +115,14 @@ const ChatPage = () => {
             chatInput={chatInput}
           />
         </form>
+        {/* Render the user input aligned with chat messages */}
+        {chatInput.trim() && (
+          <div className={`p-2 my-2 rounded text-right`}>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {chatInput.trim()}
+            </ReactMarkdown>
+          </div>
+        )}
       </div>
     </div>
   );

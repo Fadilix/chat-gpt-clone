@@ -7,15 +7,16 @@ import degree from "../assets/svgs/degree.svg";
 import ChatGPT from "../assets/svgs/chatgpt.svg";
 
 const messages = [
-  { alt: "pen", src: pen, text: "Remercier après un entretien" },
+  { alt: "pen", src: pen, text: "Thanking after an interview" },
   {
     alt: "bulb",
     src: bulb,
-    text: "Ecris une petite histoire",
+    text: "Write a short story",
   },
-  { alt: "globe", src: globe, text: "Planifier une journée de détente" },
-  { alt: "degree", src: degree, text: "Quiz moi sur les capitales du monde" },
+  { alt: "globe", src: globe, text: "Plan a relaxing day" },
+  { alt: "degree", src: degree, text: "Quiz me on world capitals" },
 ];
+
 
 const WelcomeMessages = () => {
   return (
