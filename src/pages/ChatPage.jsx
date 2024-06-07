@@ -3,6 +3,9 @@ import { BeatLoader } from "react-spinners";
 import axios from "axios";
 import ChatInput from "../components/ChatInput";
 import NavBar from "../components/NavBar";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import WelcomeMessages from "../components/WelcomeMessages";
 
 const ChatPage = () => {
   const [chatInput, setChatInput] = useState("");
@@ -10,6 +13,8 @@ const ChatPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [typingIndex, setTypingIndex] = useState(null);
+  const [isVisibleWelcomeMessages, setIsVisibleWelcomeMessages] =
+    useState(true);
 
   const postGeminiResponse = async () => {
     try {
@@ -32,21 +37,18 @@ const ChatPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!chatInput.trim()) return;
+    setIsVisibleWelcomeMessages(false);
 
     setIsLoading(true);
     setError("");
 
     setMessages((prevMessages) => [
       ...prevMessages,
-      { sender: "user", text: chatInput },
+      { sender: "user", text: "" },
     ]);
 
     const res = await postGeminiResponse();
     if (res) {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { sender: "bot", text: "" },
-      ]);
       setTypingIndex(messages.length);
       simulateTypingEffect(res.result, messages.length);
     }
@@ -63,7 +65,11 @@ const ChatPage = () => {
         currentText += text.charAt(i);
         setMessages((prevMessages) => {
           const newMessages = [...prevMessages];
-          newMessages[index].text = currentText;
+          if (newMessages[index]) {
+            newMessages[index].text = currentText;
+          } else {
+            newMessages.push({ sender: "bot", text: currentText });
+          }
           return newMessages;
         });
         i++;
@@ -77,12 +83,15 @@ const ChatPage = () => {
     <div>
       <div className="mx-10">
         <NavBar />
+        <div>{isVisibleWelcomeMessages && <WelcomeMessages />}</div>
       </div>
       <div className="p-4 mx-[400px] mb-10">
         <div className="mb-4 overflow-y-auto p-2 rounded">
           {messages.map((message, index) => (
             <div key={index} className={`p-2 my-2 rounded`}>
-              {message.text}
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {message.text}
+              </ReactMarkdown>
             </div>
           ))}
           {error && (

@@ -1,20 +1,21 @@
 import React, { useEffect } from "react";
-import { themes } from "../data/theme";
+import { themes } from "../themes/theme";
 
 const NavBar = () => {
   const html = document.querySelector("html");
   const handleThemeChange = (theme) => {
     html.setAttribute("data-theme", theme);
+    localStorage.setItem("data-theme", theme);
   };
 
   useEffect(() => {
-    const themeMemory = localStorage.getItem("currentTheme") || "dark";
+    const themeMemory = localStorage.getItem("data-theme") || "dark";
     html.setAttribute("data-theme", themeMemory);
   }, []);
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <a className="btn btn-ghost text-xl">FadGPT</a>
       </div>
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
