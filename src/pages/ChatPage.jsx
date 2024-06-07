@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { BeatLoader } from "react-spinners";
 import axios from "axios";
 import ChatInput from "../components/ChatInput";
+import NavBar from "../components/NavBar";
 
 const ChatPage = () => {
   const [chatInput, setChatInput] = useState("");
@@ -69,35 +70,39 @@ const ChatPage = () => {
       } else {
         clearInterval(interval);
       }
-    }, 50);
+    }, 10);
   };
 
   return (
-    <div className="p-4 mx-[400px]">
-      <div className="mb-4 overflow-y-auto h-80 p-2 rounded">
-        {messages.map((message, index) => (
-          <div key={index} className={`p-2 my-2 rounded`}>
-            {message.text}
-          </div>
-        ))}
-        {isLoading && (
-          <div className="flex justify-center translate-center">
-            <BeatLoader />
-          </div>
-        )}
+    <div>
+      <div className="mx-10">
+        <NavBar />
       </div>
-      <form onSubmit={handleSubmit} className="mb-4">
-        <ChatInput
-          handleInputChange={handleInputChange}
-          chatInput={chatInput}
-        />
-  
-      </form>
-      {error && (
-        <p className="mt-4 text-red-500 transition-opacity duration-300 ease-in-out opacity-100">
-          {error}
-        </p>
-      )}
+      <div className="p-4 mx-[400px] mb-10">
+        <div className="mb-4 overflow-y-auto p-2 rounded">
+          {messages.map((message, index) => (
+            <div key={index} className={`p-2 my-2 rounded`}>
+              {message.text}
+            </div>
+          ))}
+          {error && (
+            <p className="mt-4 text-red-500 transition-opacity duration-300 ease-in-out opacity-100">
+              {error}
+            </p>
+          )}
+          {isLoading && (
+            <div className="flex justify-center translate-center">
+              <BeatLoader style={{ color: "white" }} />
+            </div>
+          )}
+        </div>
+        <form onSubmit={handleSubmit} className="mb-4">
+          <ChatInput
+            handleInputChange={handleInputChange}
+            chatInput={chatInput}
+          />
+        </form>
+      </div>
     </div>
   );
 };
