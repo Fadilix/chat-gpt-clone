@@ -38,6 +38,11 @@ const ChatPage = () => {
     e.preventDefault();
     if (!chatInput.trim()) return;
     setIsVisibleWelcomeMessages(false);
+    const p = document.createElement("p");
+    p.innerHTML = chatInput.trim();
+    const chatArea = document.querySelector(".chat-area");
+    chatArea.appendChild(p);
+
     setIsLoading(true);
     setError("");
 
@@ -84,15 +89,10 @@ const ChatPage = () => {
         <NavBar />
         <div>{isVisibleWelcomeMessages && <WelcomeMessages />}</div>
       </div>
-      <div className="p-4 mx-[400px] mb-10">
+      <div className="chat-area p-4 mx-[400px] mb-10">
         <div className="mb-4 overflow-y-auto p-2 rounded">
           {messages.map((message, index) => (
-            <div
-              key={index}
-              className={`p-2 my-2 rounded ${
-                message.sender === "user" ? "text-right" : "text-left"
-              }`}
-            >
+            <div key={index} className={`p-2 my-2 rounded`}>
               <ReactMarkdown remarkPlugins={[remarkGfm]}>
                 {message.text}
               </ReactMarkdown>
@@ -115,14 +115,6 @@ const ChatPage = () => {
             chatInput={chatInput}
           />
         </form>
-        {/* Render the user input aligned with chat messages */}
-        {chatInput.trim() && (
-          <div className={`p-2 my-2 rounded text-right`}>
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {chatInput.trim()}
-            </ReactMarkdown>
-          </div>
-        )}
       </div>
     </div>
   );
