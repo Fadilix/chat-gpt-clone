@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { BeatLoader } from "react-spinners";
 import axios from "axios";
 import ChatInput from "../components/ChatInput";
@@ -12,9 +12,9 @@ const ChatPage = () => {
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [typingIndex, setTypingIndex] = useState(null);
-  const [isVisibleWelcomeMessages, setIsVisibleWelcomeMessages] =
-    useState(true);
+  const [isVisibleWelcomeMessages, setIsVisibleWelcomeMessages] = useState(true);
+  const typingInterval = useRef(null);
+  const [canStopTyping, setCanStopTyping] = useState(false);
 
   const postGeminiResponse = async () => {
     try {
@@ -37,40 +37,39 @@ const ChatPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!chatInput.trim()) return;
+
     setIsVisibleWelcomeMessages(false);
-    const p = document.createElement("p");
-    p.innerHTML = chatInput.trim();
-    const chatArea = document.querySelector(".chat-area");
-    chatArea.appendChild(p);
+
+    // Add the user's message to the state
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { sender: "user", text: chatInput.trim() },
+    ]);
 
     setIsLoading(true);
     setError("");
 
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { sender: "user", text: "" },
-    ]);
-
+    // Fetch the bot's response
     const res = await postGeminiResponse();
     if (res) {
-      setTypingIndex(messages.length);
-      simulateTypingEffect(res.result, messages.length);
+      setCanStopTyping(true); // Allow stopping typing when response starts
+      simulateTypingEffect(res.result);
     }
 
     setIsLoading(false);
     setChatInput("");
   };
 
-  const simulateTypingEffect = (text, index) => {
+  const simulateTypingEffect = (text) => {
     let currentText = "";
     let i = 0;
-    const interval = setInterval(() => {
+    typingInterval.current = setInterval(() => {
       if (i < text.length) {
         currentText += text.charAt(i);
         setMessages((prevMessages) => {
           const newMessages = [...prevMessages];
-          if (newMessages[index]) {
-            newMessages[index].text = currentText;
+          if (newMessages[newMessages.length - 1]?.sender === "bot") {
+            newMessages[newMessages.length - 1].text = currentText;
           } else {
             newMessages.push({ sender: "bot", text: currentText });
           }
@@ -78,9 +77,15 @@ const ChatPage = () => {
         });
         i++;
       } else {
-        clearInterval(interval);
+        clearInterval(typingInterval.current);
+        setCanStopTyping(false); // Disable stopping when typing is done
       }
     }, 10);
+  };
+
+  const stopTyping = () => {
+    clearInterval(typingInterval.current);
+    setCanStopTyping(false); // Disable stopping immediately
   };
 
   return (
@@ -92,7 +97,12 @@ const ChatPage = () => {
       <div className="chat-area p-4 mx-[400px] mb-10">
         <div className="mb-4 overflow-y-auto p-2 rounded">
           {messages.map((message, index) => (
-            <div key={index} className={`p-2 my-2 rounded`}>
+            <div
+              key={index}
+              className={`p-2 my-2 rounded ${
+                message.sender === "user" ? "text-right" : "mb-10 bg-base-200"
+              }`}
+            >
               <ReactMarkdown remarkPlugins={[remarkGfm]}>
                 {message.text}
               </ReactMarkdown>
@@ -113,6 +123,8 @@ const ChatPage = () => {
           <ChatInput
             handleInputChange={handleInputChange}
             chatInput={chatInput}
+            canStopTyping={canStopTyping}
+            stopTyping={stopTyping}
           />
         </form>
       </div>
