@@ -18,7 +18,7 @@ const ChatPage = () => {
 
   const postGeminiResponse = async () => {
     try {
-      const { data } = await axios.post("http://localhost:8081/gemini", {
+      const { data } = await axios.post("/gemini", {
         prompt: chatInput,
       });
       return data;
