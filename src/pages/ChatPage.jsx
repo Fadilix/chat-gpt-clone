@@ -33,6 +33,7 @@ const ChatPage = () => {
   const handleInputChange = (e) => {
     setChatInput(e.target.value);
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
