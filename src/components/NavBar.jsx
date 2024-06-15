@@ -9,7 +9,7 @@ const NavBar = () => {
   };
 
   useEffect(() => {
-    const themeMemory = localStorage.getItem("data-theme") || "dark";
+    const themeMemory = localStorage.getItem("data-theme") || "light";
     html.setAttribute("data-theme", themeMemory);
   }, []);
   return (
