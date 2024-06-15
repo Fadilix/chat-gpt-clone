@@ -12,6 +12,7 @@ const NavBar = () => {
     const themeMemory = localStorage.getItem("data-theme") || "light";
     html.setAttribute("data-theme", themeMemory);
   }, []);
+
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
