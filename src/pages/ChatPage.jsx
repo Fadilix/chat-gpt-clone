@@ -19,9 +19,12 @@ const ChatPage = () => {
 
   const postGeminiResponse = async () => {
     try {
-      const { data } = await axios.post("/gemini", {
-        prompt: chatInput,
-      });
+      const { data } = await axios.post(
+        "https://chat-gpt-clone-api-nine.vercel.app/gemini",
+        {
+          prompt: chatInput,
+        }
+      );
       return data;
     } catch (error) {
       console.error("*********Error*********", error);
