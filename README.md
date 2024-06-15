@@ -3,6 +3,9 @@
 This project is a Chat GPT clone that uses the Gemini Integration API to generate responses based on user prompts. The frontend is built with React, and it interacts with the backend API to provide AI-generated chat responses.
 
 
+Access the API here [here](https://github.com/Fadilix/gemini-integration-api.git)
+
+
 
 ## Table of Contents
 - [Features](#features)
