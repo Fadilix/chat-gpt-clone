@@ -21,7 +21,7 @@ const ChatPage = () => {
   const postGeminiResponse = async () => {
     try {
       const { data } = await axios.post(
-        "https://https://gemini-integration-api.vercel.app//gemini",
+        "https://https://gemini-integration-api.vercel.app/gemini",
         {
           prompt: chatInput,
         }
@@ -121,7 +121,7 @@ const ChatPage = () => {
                 {error}
               </p>
             )}
-            {(isSending) && (
+            {isSending && (
               <div className="flex justify-center translate-center">
                 <BeatLoader style={{ color: "white" }} />
               </div>
