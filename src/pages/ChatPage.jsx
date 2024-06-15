@@ -107,7 +107,7 @@ const ChatPage = () => {
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`p-2 my-2 rounded mt-10 ${
+                className={`p-2 my-2 rounded mt-10 overflow-y-hidden ${
                   message.sender === "user" ? "text-right" : "mb-5 bg-base-200"
                 }`}
               >

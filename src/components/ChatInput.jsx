@@ -10,7 +10,7 @@ const ChatInput = ({
   stopTyping,
 }) => {
   return (
-    <div className="flex items-center justify-between input input-bordered fixed bottom-0 left-1/2 transform -translate-x-1/2 mb-4 w-full max-w-lg">
+    <div className="flex items-center justify-between input input-bordered fixed bottom-0 left-1/2 transform -translate-x-1/2 mb-4 w-[80vw] md:w-full max-w-lg">
       <input
         autoFocus={true}
         type="text"
