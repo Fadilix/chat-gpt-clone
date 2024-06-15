@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { BeatLoader } from "react-spinners";
+import { PuffLoader } from "react-spinners";
 import axios from "axios";
 import ChatInput from "../components/ChatInput";
 import NavBar from "../components/NavBar";
@@ -123,7 +123,10 @@ const ChatPage = () => {
             )}
             {isSending && (
               <div className="flex justify-center translate-center">
-                <BeatLoader style={{ color: "white" }} />
+                <div className="text-base-300">
+                  {/* <PropagateLoader /> */}
+                  <PuffLoader />
+                </div>
               </div>
             )}
           </div>
