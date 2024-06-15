@@ -91,44 +91,46 @@ const ChatPage = () => {
   };
 
   return (
-    <div>
-      <div className="mx-10">
+    <div className="flex flex-col min-h-screen">
+      <div className="mx-4 md:mx-10">
         <NavBar />
         <div>{isVisibleWelcomeMessages && <WelcomeMessages />}</div>
       </div>
-      <div className="chat-area p-4 mx-[400px] mb-10">
-        <div className="mb-4 overflow-y-auto p-2 rounded">
-          {messages.map((message, index) => (
-            <div
-              key={index}
-              className={`p-2 my-2 rounded ${
-                message.sender === "user" ? "text-right" : "mb-10 bg-base-200"
-              }`}
-            >
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {message.text}
-              </ReactMarkdown>
-            </div>
-          ))}
-          {error && (
-            <p className="mt-4 text-red-500 transition-opacity duration-300 ease-in-out opacity-100">
-              {error}
-            </p>
-          )}
-          {isLoading && (
-            <div className="flex justify-center translate-center">
-              <BeatLoader style={{ color: "white" }} />
-            </div>
-          )}
+      <div className="flex-grow p-4 mx-2 md:mx-[100px] lg:mx-[200px] xl:mx-[300px] 2xl:mx-[400px]">
+        <div className="chat-area p-4 mb-10">
+          <div className="mb-4 overflow-y-auto max-h-[60vh] p-2 rounded">
+            {messages.map((message, index) => (
+              <div
+                key={index}
+                className={`p-2 my-2 rounded ${
+                  message.sender === "user" ? "text-right" : "mb-10 bg-base-200"
+                }`}
+              >
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {message.text}
+                </ReactMarkdown>
+              </div>
+            ))}
+            {error && (
+              <p className="mt-4 text-red-500 transition-opacity duration-300 ease-in-out opacity-100">
+                {error}
+              </p>
+            )}
+            {isLoading && (
+              <div className="flex justify-center translate-center">
+                <BeatLoader style={{ color: "white" }} />
+              </div>
+            )}
+          </div>
+          <form onSubmit={handleSubmit} className="mb-4">
+            <ChatInput
+              handleInputChange={handleInputChange}
+              chatInput={chatInput}
+              canStopTyping={canStopTyping}
+              stopTyping={stopTyping}
+            />
+          </form>
         </div>
-        <form onSubmit={handleSubmit} className="mb-4">
-          <ChatInput
-            handleInputChange={handleInputChange}
-            chatInput={chatInput}
-            canStopTyping={canStopTyping}
-            stopTyping={stopTyping}
-          />
-        </form>
       </div>
     </div>
   );
