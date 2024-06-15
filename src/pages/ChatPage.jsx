@@ -12,7 +12,8 @@ const ChatPage = () => {
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [isVisibleWelcomeMessages, setIsVisibleWelcomeMessages] = useState(true);
+  const [isVisibleWelcomeMessages, setIsVisibleWelcomeMessages] =
+    useState(true);
   const typingInterval = useRef(null);
   const [canStopTyping, setCanStopTyping] = useState(false);
 
@@ -33,7 +34,6 @@ const ChatPage = () => {
   const handleInputChange = (e) => {
     setChatInput(e.target.value);
   };
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,7 +41,6 @@ const ChatPage = () => {
 
     setIsVisibleWelcomeMessages(false);
 
-    // Add the user's message to the state
     setMessages((prevMessages) => [
       ...prevMessages,
       { sender: "user", text: chatInput.trim() },
@@ -50,10 +49,9 @@ const ChatPage = () => {
     setIsLoading(true);
     setError("");
 
-    // Fetch the bot's response
     const res = await postGeminiResponse();
     if (res) {
-      setCanStopTyping(true); // Allow stopping typing when response starts
+      setCanStopTyping(true);
       simulateTypingEffect(res.result);
     }
 
@@ -79,14 +77,14 @@ const ChatPage = () => {
         i++;
       } else {
         clearInterval(typingInterval.current);
-        setCanStopTyping(false); // Disable stopping when typing is done
+        setCanStopTyping(false);
       }
     }, 10);
   };
 
   const stopTyping = () => {
     clearInterval(typingInterval.current);
-    setCanStopTyping(false); // Disable stopping immediately
+    setCanStopTyping(false);
   };
 
   return (
