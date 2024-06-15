@@ -21,7 +21,7 @@ const ChatPage = () => {
   const postGeminiResponse = async () => {
     try {
       const { data } = await axios.post(
-        "https://chat-gpt-clone-api-nine.vercel.app/gemini",
+        "https://https://gemini-integration-api.vercel.app//gemini",
         {
           prompt: chatInput,
         }
