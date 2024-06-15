@@ -8,7 +8,7 @@ const Globe = () => {
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="currentColor"
-      className="size-6 text-base-content"
+      className="size-6 text-base-content fill-base-100"
     >
       <path
         strokeLinecap="round"

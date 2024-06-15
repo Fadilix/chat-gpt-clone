@@ -1,6 +1,8 @@
 import React from "react";
 import send from "../assets/svgs/send.svg";
 import stop from "../assets/svgs/stop.svg";
+import Send from "./Icons/Send";
+import Stop from "./Icons/Stop";
 
 const ChatInput = ({
   disabled,
@@ -14,7 +16,7 @@ const ChatInput = ({
       <input
         autoFocus={true}
         type="text"
-        className="w-full"
+        className="w-full text-base-content"
         value={chatInput}
         onChange={handleInputChange}
         placeholder="Message FadGPT"
@@ -27,11 +29,11 @@ const ChatInput = ({
             disabled={disabled}
             className={`${disabled && "cursor-not-allowed disabled"}`}
           >
-            <img src={send} width={25} alt="alt" className="" />
+            <Send />
           </button>
         ) : (
           <button onClick={stopTyping} type="button">
-            <img src={stop} width={25} alt="alt" />
+            <Stop />
           </button>
         )}
       </div>

@@ -1,11 +1,12 @@
 import React, { useState, useRef } from "react";
-import { PuffLoader } from "react-spinners";
+// import { PuffLoader } from "react-spinners";
 import axios from "axios";
 import ChatInput from "../components/ChatInput";
 import NavBar from "../components/NavBar";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import WelcomeMessages from "../components/WelcomeMessages";
+import { DNA } from "react-loader-spinner";
 
 const ChatPage = () => {
   const [chatInput, setChatInput] = useState("");
@@ -125,7 +126,7 @@ const ChatPage = () => {
               <div className="flex justify-center translate-center">
                 <div className="text-base-300">
                   {/* <PropagateLoader /> */}
-                  <PuffLoader />
+                  <DNA />
                 </div>
               </div>
             )}
