@@ -10,6 +10,7 @@ import WelcomeMessages from "../components/WelcomeMessages";
 const ChatPage = () => {
   const [chatInput, setChatInput] = useState("");
   const [messages, setMessages] = useState([]);
+  const [isSending, setIsSending] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [isVisibleWelcomeMessages, setIsVisibleWelcomeMessages] =
@@ -29,7 +30,7 @@ const ChatPage = () => {
     } catch (error) {
       console.error("*********Error*********", error);
       setError("An error occurred while fetching the response.");
-      setIsLoading(false);
+      setIsSending(false);
       return null;
     }
   };
@@ -41,7 +42,7 @@ const ChatPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!chatInput.trim()) return;
-
+    setIsSending(true);
     setIsVisibleWelcomeMessages(false);
 
     setMessages((prevMessages) => [
@@ -49,20 +50,20 @@ const ChatPage = () => {
       { sender: "user", text: chatInput.trim() },
     ]);
 
-    setIsLoading(true);
     setError("");
 
     const res = await postGeminiResponse();
+    setIsSending(false);
     if (res) {
       setCanStopTyping(true);
-      simulateTypingEffect(res.result);
+      setIsLoading(true);
+      await simulateTypingEffect(res.result);
     }
 
-    setIsLoading(false);
     setChatInput("");
   };
 
-  const simulateTypingEffect = (text) => {
+  const simulateTypingEffect = async (text) => {
     let currentText = "";
     let i = 0;
     typingInterval.current = setInterval(() => {
@@ -81,6 +82,7 @@ const ChatPage = () => {
       } else {
         clearInterval(typingInterval.current);
         setCanStopTyping(false);
+        setIsLoading(false);
       }
     }, 10);
   };
@@ -88,22 +90,25 @@ const ChatPage = () => {
   const stopTyping = () => {
     clearInterval(typingInterval.current);
     setCanStopTyping(false);
+    setIsLoading(false);
   };
 
   return (
     <div className="flex flex-col min-h-screen">
       <div className="mx-4 md:mx-10">
-        <NavBar />
+        <div className="fixed w-[90vw]">
+          <NavBar />
+        </div>
         <div>{isVisibleWelcomeMessages && <WelcomeMessages />}</div>
       </div>
       <div className="flex-grow p-4 mx-2 md:mx-[100px] lg:mx-[200px] xl:mx-[300px] 2xl:mx-[400px]">
         <div className="chat-area p-4 mb-10">
-          <div className="mb-4 overflow-y-auto max-h-[60vh] p-2 rounded">
+          <div className="mb-4 p-2 rounded">
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`p-2 my-2 rounded ${
-                  message.sender === "user" ? "text-right" : "mb-10 bg-base-200"
+                className={`p-2 my-2 rounded mt-10 ${
+                  message.sender === "user" ? "text-right" : "mb-5 bg-base-200"
                 }`}
               >
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
@@ -116,7 +121,7 @@ const ChatPage = () => {
                 {error}
               </p>
             )}
-            {isLoading && (
+            {(isSending) && (
               <div className="flex justify-center translate-center">
                 <BeatLoader style={{ color: "white" }} />
               </div>
@@ -128,6 +133,7 @@ const ChatPage = () => {
               chatInput={chatInput}
               canStopTyping={canStopTyping}
               stopTyping={stopTyping}
+              disabled={isSending || isLoading}
             />
           </form>
         </div>
