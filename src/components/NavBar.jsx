@@ -40,12 +40,6 @@ const NavBar = () => {
                 </svg>
               </summary>
               <ul className="p-2 bg-base-100 rounded-t-none">
-                {/* <li>
-                  <a>Link 1</a>
-                </li>
-                <li>
-                  <a>Link 2</a>
-                </li> */}
                 <div className="h-[400px] overflow-scroll overflow-x-hidden">
                   {themes.map((theme, index) => (
                     <li key={index}>

@@ -5,7 +5,6 @@ import Buble from "./Icons/Buble";
 import Globe from "./Icons/Globe";
 import Degree from "./Icons/Degree";
 import ChatGPT from "./Icons/ChatGPT";
-// import ChatGPT from "../assets/svgs/chatgpt.svg";
 
 const messages = [
   { alt: "pen", Icon: Pen, text: "Thanking after an interview" },

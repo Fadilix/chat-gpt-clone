@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-// import { PuffLoader } from "react-spinners";
 import axios from "axios";
 import ChatInput from "../components/ChatInput";
 import NavBar from "../components/NavBar";
@@ -16,8 +15,9 @@ const ChatPage = () => {
   const [error, setError] = useState("");
   const [isVisibleWelcomeMessages, setIsVisibleWelcomeMessages] =
     useState(true);
-  const typingInterval = useRef(null);
   const [canStopTyping, setCanStopTyping] = useState(false);
+  
+  const typingInterval = useRef(null);
 
   const postGeminiResponse = async () => {
     try {
@@ -125,7 +125,6 @@ const ChatPage = () => {
             {isSending && (
               <div className="flex justify-center translate-center">
                 <div className="text-base-300">
-                  {/* <PropagateLoader /> */}
                   <DNA />
                 </div>
               </div>

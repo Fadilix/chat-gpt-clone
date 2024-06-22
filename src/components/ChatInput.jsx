@@ -1,6 +1,4 @@
 import React from "react";
-import send from "../assets/svgs/send.svg";
-import stop from "../assets/svgs/stop.svg";
 import Send from "./Icons/Send";
 import Stop from "./Icons/Stop";
 
